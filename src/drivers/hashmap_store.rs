@@ -1,7 +1,8 @@
-use crate::{datastore::Datastore};
+use crate::datastore::Datastore;
+use crate::error::LucyError;
 use crate::record::Record;
 use std::collections::HashMap;
-use crate::error::LucyError;
+use std::vec;
 
 pub struct HashmapStore {
     store: HashMap<String, String>,
@@ -17,11 +18,9 @@ impl HashmapStore {
 impl Datastore for HashmapStore {
     fn find(&self, uuid: &str) -> Result<Record, LucyError> {
         match self.store.get(uuid) {
-            Some(url) => {
-                match Record::from(url.to_string(), uuid.to_string()) {
-                    Ok(rec) => Ok(rec),
-                    Err(_) => Err(LucyError::NotAValidError),
-                }
+            Some(url) => match Record::from(url.to_string(), uuid.to_string()) {
+                Ok(rec) => Ok(rec),
+                Err(_) => Err(LucyError::NotAValidError),
             },
             None => Err(LucyError::UrlNotFoundError),
         }
@@ -30,5 +29,18 @@ impl Datastore for HashmapStore {
     fn record(&mut self, record: Record) -> Result<bool, String> {
         self.store.insert(record.uuid, record.url);
         Ok(true)
+    }
+
+    fn all(&self) -> Vec<Record> {
+        let mut records: Vec<Record> = vec![];
+
+        for (uuid, url) in &self.store {
+            match Record::from(url.to_string(), uuid.to_string()) {
+                Ok(record) => records.push(record),
+                Err(_) => {}
+            }
+        }
+
+        records
     }
 }
