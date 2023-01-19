@@ -1,4 +1,5 @@
-use crate::{datastore::Datastore, Record};
+use crate::{datastore::Datastore};
+use crate::record::Record;
 use std::collections::HashMap;
 use crate::error::LucyError;
 

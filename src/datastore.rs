@@ -1,4 +1,4 @@
-use crate::Record;
+use crate::record::Record;
 use crate::error::LucyError;
 
 pub trait Datastore {
