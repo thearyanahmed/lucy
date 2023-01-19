@@ -39,7 +39,46 @@ impl Datastore for RedisStore {
         }
     }
 
-    fn all(&self) -> Vec<Record> {
-        vec![]
+    fn all(&mut self) -> Vec<Record> {
+        // Get all the keys
+        let keys = match redis::cmd("KEYS").arg("*").query::<Vec<String>>(&mut self.con) {
+            Ok(keyset) => keyset,
+            Err(_) => vec![],
+        };
+
+        if keys.len() == 0 {
+            return vec![];
+        }
+
+        let mut cmd = redis::cmd("MGET");
+
+        // build the command
+        for k in keys.clone() {
+            cmd.arg(k);
+        }
+
+        // get redis results using MGET key1, key2
+        let urls = match cmd.query::<Vec<String>>(&mut self.con) {
+            Ok(results) => results,
+            Err(_) => vec![],
+        };
+
+        if urls.len() == 0 {
+            return vec![];
+        }
+
+        // Result mapping
+        let mut res : Vec<Record> = vec![];
+
+        for (i, uuid) in keys.iter().enumerate() {
+            let url = &urls[i];
+
+            match Record::from(url.to_string(), uuid.to_string()) {
+                Ok(record) => res.push(record),
+                Err(_) => {},
+            }
+        }
+
+        res
     }
 }

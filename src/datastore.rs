@@ -13,5 +13,5 @@ pub trait Datastore {
 
     fn record(&mut self, record: Record) -> Result<bool, String>;
 
-    fn all(&self) -> Vec<Record>;
+    fn all(&mut self) -> Vec<Record>;
 }

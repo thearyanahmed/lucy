@@ -32,7 +32,7 @@ fn main() {
         Err(e) => println!("{}",e)
     }
 
-    let x = vec![fake_uuid, "hello".to_string()];
+    let x = vec![fake_uuid];
 
     for y in x {
         match c.find(&y) {
@@ -41,5 +41,9 @@ fn main() {
             },
             Err(e) => print!("NOT FOUND {}",e.to_string()),
         }
+    }
+
+    for x in c.all() {
+        println!("{} = {}", x.uuid, x.url)
     }
 }

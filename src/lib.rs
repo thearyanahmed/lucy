@@ -26,7 +26,7 @@ impl Lucy {
         self.ds.record(record)
     }
 
-    pub fn all(&self) -> Vec<Record> {
+    pub fn all(&mut self) -> Vec<Record> {
         self.ds.all()
     }
 

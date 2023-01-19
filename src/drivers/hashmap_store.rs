@@ -31,7 +31,7 @@ impl Datastore for HashmapStore {
         Ok(true)
     }
 
-    fn all(&self) -> Vec<Record> {
+    fn all(&mut self) -> Vec<Record> {
         let mut records: Vec<Record> = vec![];
 
         for (uuid, url) in &self.store {
