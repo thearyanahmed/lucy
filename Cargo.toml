@@ -8,9 +8,10 @@ version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-path = "src/main.rs"
+path = "examples/main.rs"
 name = "lucy"
 
 [dependencies]
 url = { version = "2" }
 rand = { version = "0.8.0" }
+fakes-gen = { version = "0.2.6" }
