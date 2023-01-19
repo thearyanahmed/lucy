@@ -7,7 +7,7 @@ use fakes_gen::faker::fake_options::FakeOption;
 fn main() {
     println!("running example");
     
-    let mut lucy = Lucy::new(DatastoreDriver::InMemoryHashmap);
+    let mut lucy = Lucy::new(DatastoreDriver::Redis);
 
     let mut faker = Faker::default();
 

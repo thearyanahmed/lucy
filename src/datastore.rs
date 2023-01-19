@@ -3,6 +3,7 @@ use crate::error::LucyError;
 
 pub enum DatastoreDriver {
     InMemoryHashmap,
+    Redis,
     // MySQL,
     // PostgreSQL,
     // Redis,

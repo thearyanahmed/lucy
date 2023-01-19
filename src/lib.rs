@@ -1,5 +1,5 @@
 use datastore::{Datastore, DatastoreDriver};
-use drivers::hashmap_store::HashmapStore;
+use drivers::{hashmap_store::HashmapStore, redis_store::RedisStore};
 use error::LucyError;
 use record::Record;
 
@@ -14,7 +14,7 @@ pub struct Lucy {
 
 impl Lucy {
     pub fn new(driver: DatastoreDriver) -> Lucy {
-        let ds = Box::new(Lucy::get_datastore(driver));
+        let ds = Lucy::get_datastore(driver);
         Lucy { ds }
     }
 
@@ -30,14 +30,10 @@ impl Lucy {
         self.ds.all()
     }
 
-    fn get_datastore(driver: DatastoreDriver) -> impl Datastore {
+    fn get_datastore(driver: DatastoreDriver) -> Box<dyn Datastore> {
         match driver {
-            DatastoreDriver::InMemoryHashmap => {
-                HashmapStore::new()
-            },
-            // MySQL => {},
-            // PostgreSQL => {},
-            // Redis => {},
+            DatastoreDriver::InMemoryHashmap => Box::new(HashmapStore::new()),
+            DatastoreDriver::Redis => Box::new(RedisStore::new()),
         }
     }
 }
