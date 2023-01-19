@@ -1,5 +1,7 @@
 # Lucy
 
+This repository is the code implemention from the series [Building a URL shortener with Rust](https://thearyanahmed.medium.com).
+
 ## Rust Alphanumeric
 
 ```rust
