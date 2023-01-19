@@ -18,7 +18,7 @@ impl Lucy {
         Lucy { ds }
     }
 
-    pub fn find(&self, uuid: &str) -> Result<Record, LucyError> {
+    pub fn find(&mut self, uuid: &str) -> Result<Record, LucyError> {
         self.ds.find(uuid)
     }
 

@@ -16,11 +16,11 @@ impl HashmapStore {
 }
 
 impl Datastore for HashmapStore {
-    fn find(&self, uuid: &str) -> Result<Record, LucyError> {
+    fn find(&mut self, uuid: &str) -> Result<Record, LucyError> {
         match self.store.get(uuid) {
             Some(url) => match Record::from(url.to_string(), uuid.to_string()) {
                 Ok(rec) => Ok(rec),
-                Err(_) => Err(LucyError::NotAValidError),
+                Err(_) => Err(LucyError::NotAValidUrlError),
             },
             None => Err(LucyError::UrlNotFoundError),
         }

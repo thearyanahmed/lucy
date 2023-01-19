@@ -9,7 +9,7 @@ pub enum DatastoreDriver {
 }
 
 pub trait Datastore {
-    fn find(&self, uuid: &str) -> Result<Record, LucyError>;
+    fn find(&mut self, uuid: &str) -> Result<Record, LucyError>;
 
     fn record(&mut self, record: Record) -> Result<bool, String>;
 

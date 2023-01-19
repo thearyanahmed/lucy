@@ -1,4 +1,6 @@
-use redis::Commands;
+use crate::datastore::Datastore;
+use crate::error::LucyError;
+use crate::record::Record;
 
 pub struct RedisStore {
     con: redis::Connection,
@@ -15,11 +17,29 @@ impl RedisStore {
 
         RedisStore { con }
     }
+}
 
-    pub fn fetch_an_integer(&mut self) -> redis::RedisResult<isize> {
-        println!("this is a test method");
+impl Datastore for RedisStore {
+    fn find(&mut self, uuid: &str) -> Result<Record, LucyError> {
+        match redis::cmd("GET").arg(uuid).query::<String>(&mut self.con) {
+            Ok(url) => {
+                match Record::from(url, uuid.to_string()) {
+                    Ok(record) => Ok(record),
+                    Err(_) => Err(LucyError::NotAValidUrlError)
+                }
+            },
+            Err(_) => Err(LucyError::UrlNotFoundError),
+        }
+    }
 
-        self.con.set("my_key_2", 421)?;
-        self.con.get("my_key_2")
+    fn record(&mut self, record: Record) -> Result<bool, String> {
+        match redis::cmd("SET").arg(record.uuid).arg(record.url).query::<String>(&mut self.con) {
+            Ok(_) => Ok(true),
+            Err(err) => Err(err.to_string()),
+        }
+    }
+
+    fn all(&self) -> Vec<Record> {
+        vec![]
     }
 }
