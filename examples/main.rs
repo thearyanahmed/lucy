@@ -1,3 +1,4 @@
+use lucy::drivers::redis_store::RedisStore;
 use lucy::{record::Record, Lucy};
 use lucy::datastore::DatastoreDriver;
 use fakes_gen::faker::Faker;
@@ -10,7 +11,7 @@ fn main() {
 
     let mut faker = Faker::default();
 
-    for _ in 0..100 {
+    for _ in 0..3 {
         match lucy.record(Record::new(faker.gen(&FakeOption::URL))) {
             Err(err) => println!("error: {}",err),
             _ => {},
@@ -20,4 +21,9 @@ fn main() {
     for r in lucy.all() {
         println!("uuid: {} url:{}",r.uuid, r.url);
     }
+
+    let mut c = RedisStore::new();
+    let res = c.fetch_an_integer();
+
+    println!("redis result: {:?}", res)
 }

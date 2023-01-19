@@ -10,6 +10,7 @@ edition = "2021"
 [dependencies]
 url = { version = "2" }
 rand = { version = "0.8.0" }
+redis = "0.22.2"
 
 [dev-dependencies]
 fakes-gen = "0.2.6"
