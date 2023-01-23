@@ -1,6 +1,6 @@
 # Lucy
 
-This repository is the code implemention from the series [Building a URL shortener with Rust and Redis](https://thearyanahmed.medium.com/building-a-url-shortener-with-rust-and-redis-42ef49bcf2f4).
+This repository is the code implementation from the series [Building a URL shortener with Rust and Redis](https://thearyanahmed.medium.com/building-a-url-shortener-with-rust-and-redis-42ef49bcf2f4).
 
 ## Run example
 ```rust
